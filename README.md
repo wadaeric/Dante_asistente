@@ -1,2 +1,12 @@
 # Dante_assistente
 Asistente virtual con python
+
+hay que hacer un:
+
+pip install -r requeriments.txt
+
+posteriormente, si tenemos python 3.8 y un sistema Windows de 64 bits:
+pip install PyAudio-0.2.11-cp38-cp38-win_amd64.whl
+
+# En caso de tener un sistema diferente descargar de la siguiente pagina:
+[https://www.lfd.uci.edu/gohlke/pythonlibs/#pyaudio](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio)
