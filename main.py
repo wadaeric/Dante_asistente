@@ -1,8 +1,8 @@
-import time
+import random
+import pywhatkit
 from classes import SpeechModule, VoiceRecognitionModule
 from datetime import datetime
-import pywhatkit
-
+from bromas import chistes
 
 
 dia = datetime.now().strftime('%d')
@@ -66,21 +66,41 @@ def dar_hora():
 
 def habla(text):
     speech.talk(text)
+    
+def cuenta_un_chiste():
+    aleatorio = random.randint(1,5)
+    print("chiste numero: ", aleatorio)
+    habla(chistes.CHISTES[aleatorio])
+    
+def normaliza(string):
+        # Normaliza el texto quitando acentos
+        acentos = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}
+        for acen in acentos:
+            if acen in string:
+                string = string.replace(acen, acentos[acen])
+        return string
+    
 
+txt = ""
 def escucha():
-    #txt = ""
+    global txt
+    txt = ""
     try:
         # Mientras reconozca el texto
         while True:
             text = recognition.recognize()
+            
             # Repetira lo que se le haya dicho
-            text = text.lower()
+            text = normaliza(text)
+            print(text)
+            
             if nombre in text:
                 txt = text.replace(nombre, '')
                 txt = txt.replace("oye", '')
                 #speech.talk(txt)
+                #print(txt)
                 break
-            time.sleep(1)
+            #time.sleep(1)
             
     except:
         pass
@@ -108,6 +128,20 @@ def run_dante():
         elif 'es hoy' in dante:
             print("Hoy es "+dia_nombre+", "+dia+" de "+mes_nombre+" del "+año)
             habla("Hoy es "+dia_nombre+", "+dia+" de "+mes_nombre+" del "+año)
+            
+        elif 'como estas' in dante:
+            bien = "Muy bien, muchas gracias por preguntar mi amo"
+            print("Muy bien, muchas gracias por preguntar mi amo")
+            habla(bien)
+            
+        elif 'cuentame un chiste' in dante:
+            cuenta_un_chiste()
+
+        # Desconectar a Dante    
+        elif 'salir' in dante:
+            print("Desconectando Dante")
+            habla("Desconectando Dante Asistente.")
+            break
         
 if __name__ == '__main__':
     run_dante()
