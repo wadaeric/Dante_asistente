@@ -1,11 +1,21 @@
 import pyttsx3
 import speech_recognition as sr
+import platform
+
+so = platform.system()
+
+if so == "Windows":
+    controlador = "sapi5"
+elif so == "Linux":
+    controlador = "espeak"
+else:
+    controlador = "nsss"
 
 # Voz del asistente
 class SpeechModule:
     def __init__(self):
-        # Controlador para el sistema operativo Windows: sapi5
-        self.engine = pyttsx3.init("sapi5")
+        # Controlador para el sistema operativo
+        self.engine = pyttsx3.init(controlador)
         
         # Establecemos la velocidad del habla en 125
         self.engine.setProperty('rate', 175)
