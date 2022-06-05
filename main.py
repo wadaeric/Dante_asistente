@@ -52,13 +52,11 @@ if mes_nombre == "December":
     mes_nombre = "Diciembre"
 
 
-
 # Cargamos los modulos                
 speech = SpeechModule()
 recognition = VoiceRecognitionModule()
 
 nombre = "dante"
-
 
 def dar_hora():
     hora = datetime.now().strftime('%H:%M')
@@ -68,7 +66,7 @@ def habla(text):
     speech.talk(text)
     
 def cuenta_un_chiste():
-    aleatorio = random.randint(1,5)
+    aleatorio = random.randint(1,11)
     print("chiste numero: ", aleatorio)
     habla(chistes.CHISTES[aleatorio])
     
@@ -90,17 +88,15 @@ def escucha():
         while True:
             text = recognition.recognize()
             
-            # Repetira lo que se le haya dicho
+            # Quitamos acentos
             text = normaliza(text)
+            # Revisamos el texto
             print(text)
             
             if nombre in text:
                 txt = text.replace(nombre, '')
                 txt = txt.replace("oye", '')
-                #speech.talk(txt)
-                #print(txt)
                 break
-            #time.sleep(1)
             
     except:
         pass
