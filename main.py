@@ -1,74 +1,21 @@
-import random
-import pywhatkit
-from classes import SpeechModule, VoiceRecognitionModule
-from datetime import datetime
+import random, pywhatkit, time
+from classes import SpeechModule, VoiceRecognitionModule, Tiempo, FechaHora
 from bromas import chistes
-
-
-dia = datetime.now().strftime('%d')
-dia_nombre = datetime.now().strftime('%A')
-mes = datetime.now().strftime('%m')
-mes_nombre = datetime.now().strftime('%b')
-año = datetime.now().strftime('%Y')
-
-if dia_nombre == "Monday":
-    dia_nombre = "Lunes"
-if dia_nombre == "Tuesday":
-    dia_nombre = "Martes"
-if dia_nombre == "Wednesday":
-    dia_nombre = "Miercoles"
-if dia_nombre == "Thursday":
-    dia_nombre = "Jueves"
-if dia_nombre == "Friday":
-    dia_nombre = "Viernes"
-if dia_nombre == "Saturday":
-    dia_nombre = "Sabado"
-if dia_nombre == "Sunday":
-    dia_nombre = "Domingo"
-    
-if mes_nombre == "January":
-    mes_nombre = "Enero"
-if mes_nombre == "February":
-    mes_nombre = "Febrero"
-if mes_nombre == "March":
-    mes_nombre = "Marzo"
-if mes_nombre == "April":
-    mes_nombre = "Abril"
-if mes_nombre == "May":
-    mes_nombre = "Mayo"
-if mes_nombre == "June":
-    mes_nombre = "Junio"
-if mes_nombre == "July":
-    mes_nombre = "Julio"
-if mes_nombre == "August":
-    mes_nombre = "Agosto"
-if mes_nombre == "September":
-    mes_nombre = "Septiembre"
-if mes_nombre == "October":
-    mes_nombre = "Octubre"
-if mes_nombre == "November":
-    mes_nombre = "Noviembre"
-if mes_nombre == "December":
-    mes_nombre = "Diciembre"
 
 
 # Cargamos los modulos                
 speech = SpeechModule()
 recognition = VoiceRecognitionModule()
+tiempo = Tiempo()
+fechahora = FechaHora()
 
 nombre = "dante"
 
-def dar_hora():
-    hora = datetime.now().strftime('%H:%M')
-    return hora
-
-def habla(text):
-    speech.talk(text)
     
 def cuenta_un_chiste():
     aleatorio = random.randint(1,11)
     print("chiste numero: ", aleatorio)
-    habla(chistes.CHISTES[aleatorio])
+    speech.talk(chistes.CHISTES[aleatorio])
     
 def normaliza(string):
         # Normaliza el texto quitando acentos
@@ -77,7 +24,6 @@ def normaliza(string):
             if acen in string:
                 string = string.replace(acen, acentos[acen])
         return string
-    
 
 txt = ""
 def escucha():
@@ -87,7 +33,7 @@ def escucha():
         # Mientras reconozca el texto
         while True:
             text = recognition.recognize()
-            
+            time.sleep(1)
             # Quitamos acentos
             text = normaliza(text)
             # Revisamos el texto
@@ -97,6 +43,7 @@ def escucha():
                 txt = text.replace(nombre, '')
                 txt = txt.replace("oye", '')
                 break
+            
             
     except:
         pass
@@ -108,8 +55,15 @@ def run_dante():
     
         # Hora
         if 'hora es' in dante:
-            print("Son las "+dar_hora())
-            habla("Son las "+dar_hora())
+            hora = fechahora.dar_hora()
+            print("Son las "+hora)
+            speech.talk("Son las "+hora)
+            
+        # Fecha
+        elif 'es hoy' in dante:
+            fecha = fechahora.dar_fecha()
+            print(fecha)
+            speech.talk(fecha)
             
         # Youtube    
         elif 'reproduce' in dante:
@@ -118,25 +72,37 @@ def run_dante():
             txt = music.replace("oye", '')
         
             print("reproduciendo "+txt)
-            habla("reproduciendo "+txt)
+            speech.talk("reproduciendo "+txt)
             pywhatkit.playonyt(txt)
-        # Fecha
-        elif 'es hoy' in dante:
-            print("Hoy es "+dia_nombre+", "+dia+" de "+mes_nombre+" del "+año)
-            habla("Hoy es "+dia_nombre+", "+dia+" de "+mes_nombre+" del "+año)
             
+        # Como estas    
         elif 'como estas' in dante:
             bien = "Muy bien, muchas gracias por preguntar mi amo"
-            print("Muy bien, muchas gracias por preguntar mi amo")
-            habla(bien)
+            print(bien)
+            speech.talk(bien)
             
-        elif 'cuentame un chiste' in dante:
+        # Gracias
+        elif 'gracias' in dante:
+            nada = "De nada mi amo, es un placer poder ayudarle"
+            print(nada)
+            speech.talk(nada)
+        
+        # Cuenta un chiste
+        elif 'chiste' in dante:
             cuenta_un_chiste()
+            
+        # Tiempo
+        elif 'tiempo' in dante:
+            lugar = "Tavèrnes de la Valldigna"
+            descripcion = tiempo.desc()
+            temp = tiempo.temperatura()
+            print("hoy en "+lugar+" hace un día con "+descripcion+", Con una temperatura de "+temp+" grados")
+            speech.talk("hoy en "+lugar+" hace un día con "+descripcion+", con una temperatura de "+temp+" grados")
 
         # Desconectar a Dante    
         elif 'salir' in dante:
             print("Desconectando Dante")
-            habla("Desconectando Dante Asistente.")
+            speech.talk("Desconectando Dante Asistente.")
             break
         
 if __name__ == '__main__':
