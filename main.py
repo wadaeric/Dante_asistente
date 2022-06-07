@@ -10,7 +10,6 @@ tiempo = Tiempo()
 fechahora = FechaHora()
 
 nombre = "dante"
-
     
 def cuenta_un_chiste():
     aleatorio = random.randint(1,11)
@@ -42,9 +41,7 @@ def escucha():
             if nombre in text:
                 txt = text.replace(nombre, '')
                 txt = txt.replace("oye", '')
-                break
-            
-            
+                break            
     except:
         pass
     return txt
@@ -65,7 +62,7 @@ def run_dante():
             print(fecha)
             speech.talk(fecha)
             
-        # Youtube    
+        # Youtube
         elif 'reproduce' in dante:
             music = dante.replace('reproduce', '')
             music = music.replace(nombre, '')
@@ -75,7 +72,7 @@ def run_dante():
             speech.talk("reproduciendo "+txt)
             pywhatkit.playonyt(txt)
             
-        # Como estas    
+        # Como estas
         elif 'como estas' in dante:
             bien = "Muy bien, muchas gracias por preguntar mi amo"
             print(bien)
@@ -99,7 +96,7 @@ def run_dante():
             print("hoy en "+lugar+" hace un día con "+descripcion+", Con una temperatura de "+temp+" grados")
             speech.talk("hoy en "+lugar+" hace un día con "+descripcion+", con una temperatura de "+temp+" grados")
 
-        # Desconectar a Dante    
+        # Desconectar a Dante
         elif 'salir' in dante:
             print("Desconectando Dante")
             speech.talk("Desconectando Dante Asistente.")

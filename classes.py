@@ -27,7 +27,11 @@ class SpeechModule:
         
         voices = self.engine.getProperty('voices')
         # Asignamos la voz numero 1
-        self.engine.setProperty('voice', voices[1].id)
+        if so == "Linux":
+            voice_id = 'spanish'
+            self.engine.setProperty('voice', voice_id)
+        else:
+            self.engine.setProperty('voice', voices[1].id)
         
     def talk(self, text):
         
@@ -72,11 +76,14 @@ class Tiempo:
         self.datos = self.res.json()
         
     def temperatura(self):
+        # Extraemos la temperatura en Boolean
         temp = self.datos["main"]["temp"]
+        # Tranformamos en String
         temp = str(temp)
         return temp
     
     def desc(self):
+        # Obtenemos la descripcion meteorologica
         descripcion = self.datos["weather"][0]["description"]
         return descripcion
     
