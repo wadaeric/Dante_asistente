@@ -74,13 +74,13 @@ def run_dante():
             
         # Como estas
         elif 'como estas' in dante:
-            bien = "Muy bien, muchas gracias por preguntar mi amo"
+            bien = "Muy bien, muchas gracias por preguntar"
             print(bien)
             speech.talk(bien)
             
         # Gracias
         elif 'gracias' in dante:
-            nada = "De nada mi amo, es un placer poder ayudarle"
+            nada = "De nada, es un placer poder ayudarle"
             print(nada)
             speech.talk(nada)
         
